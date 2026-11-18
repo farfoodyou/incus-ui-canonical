@@ -1,23 +1,54 @@
-# LXD-UI
+# Incus UI (fork)
 
-LXD-UI is a browser frontend for LXD. It enables easy and accessible container and virtual machine management.
-Targets small and large scale private clouds.
+A browser frontend for [Incus](https://linuxcontainers.org/incus/). It enables easy and
+accessible container and virtual machine management, and targets small and large scale
+private clouds.
+
+This repository is a fork of [zabbly/incus-ui-canonical](https://github.com/zabbly/incus-ui-canonical)
+that adds a **multi-tab terminal with persistent tmux sessions** — see [This fork](#this-fork).
 
 # Install
 
-1. Get the LXD snap
+The UI is plain static files (`index.html` + `assets/`), served by incusd. There is
+nothing to install besides Incus itself and the files below.
 
-       sudo snap install lxd
+1. Make sure the Incus server is reachable from the network (8443 is the default):
 
-   Or refresh to the latest stable LTS release:
+       incus config set core.https_address :8443
 
-       sudo snap refresh --channel=latest/stable lxd
+2. Put the UI files in place and point incusd at them:
 
-2. Make sure that your LXD server is exposed to the network. For example listen on port 8443 of all available interfaces:
+       # released tarball
+       tar xzf incus-ui-multitab-*.tar.gz -C /opt/incus        # gives /opt/incus/ui
 
-       lxc config set core.https_address :8443
+       # or build from source
+       yarn install && yarn build && rsync -a build/ui/ /opt/incus/ui/
 
-3. Done. Access the UI in your browser by entering the server address (for example on localhost, https://127.0.0.1:8443). You can find more information on the UI in the [LXD documentation](https://canonical.com/lxd/docs/latest/howto/access_ui/).
+       install -d /etc/systemd/system/incus.service.d
+       printf '[Service]\nEnvironment=INCUS_UI=/opt/incus/ui\n' \
+         > /etc/systemd/system/incus.service.d/ui.conf
+       systemctl daemon-reload && systemctl restart incus
+
+3. Open `https://<incus-host>:8443/ui/` and trust the browser certificate (or log in
+   through OIDC) when prompted.
+
+Distro packages ship their own copy of the UI at the same path; replacing it is enough,
+no rebuild of Incus is needed.
+
+# This fork
+
+- **Multi-tab terminal** — every tab attaches to a tmux session in the guest
+  (`tmux new-session -A -s <sess>`), so sessions survive page reloads, closed tabs and
+  reconnects. Tabs are remembered per instance; when tmux is missing the UI offers a
+  one-click install tab and falls back to a plain shell.
+
+  ![multi-tab terminal](screenshots/multitab-terminal.png)
+
+- Prebuilt release: <https://github.com/farfoodyou/incus-ui-canonical/releases>
+- Upstream fix included: reading the `X-Incus-*` file metadata headers
+  ([upstream PR #266](https://github.com/zabbly/incus-ui-canonical/pull/266)).
+
+Multi-tab work is kept in this fork only; it is not proposed upstream.
 
 # Contributing
 
