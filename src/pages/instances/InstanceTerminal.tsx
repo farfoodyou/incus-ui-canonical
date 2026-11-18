@@ -37,6 +37,7 @@ import { isInstanceRunning } from "util/instanceStatus";
 import {
   createWindowsLineState,
   getDefaultPayload,
+  getTmuxPayload,
   translateWindowsInput,
 } from "util/instanceTerminal";
 import { isWindowsInstance } from "util/instances";
@@ -52,9 +53,18 @@ const XTERM_OPTIONS = {
 interface Props {
   instance: LxdInstance;
   refreshInstance: () => Promise<unknown>;
+  /** tmux session name; when set the terminal attaches to a persistent tmux session */
+  session?: string;
+  /** explicit exec command (used by the "install tmux" helper tab) */
+  command?: string[];
 }
 
-const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
+const InstanceTerminal: FC<Props> = ({
+  instance,
+  refreshInstance,
+  session,
+  command,
+}) => {
   const notify = useNotify();
   const { name, project } = useParams<{
     name: string;
@@ -66,9 +76,14 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [payload, setPayload] = useState<TerminalConnectPayload>(() =>
-    getDefaultPayload(instance),
-  );
+  const [payload, setPayload] = useState<TerminalConnectPayload>(() => {
+    if (command) {
+      return { ...getDefaultPayload(instance), command };
+    }
+    return session
+      ? getTmuxPayload(instance, session)
+      : getDefaultPayload(instance);
+  });
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
   const { operations, isFetching } = useOperations();

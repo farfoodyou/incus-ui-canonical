@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Row, CustomLayout, Spinner } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
-import InstanceTerminal from "./InstanceTerminal";
+import InstanceTerminalTabs from "./InstanceTerminalTabs";
 import { useParams } from "react-router-dom";
 import InstanceSnapshots from "./InstanceSnapshots";
 import InstanceConsole from "pages/instances/InstanceConsole";
@@ -129,7 +129,7 @@ const InstanceDetail: FC = () => {
 
           {activeTab === "terminal" && (
             <div role="tabpanel" aria-labelledby="terminal">
-              <InstanceTerminal
+              <InstanceTerminalTabs
                 instance={instance}
                 refreshInstance={refreshInstance}
               />

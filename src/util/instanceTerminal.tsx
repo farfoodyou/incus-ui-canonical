@@ -111,3 +111,24 @@ export const getDefaultPayload = (instance: LxdInstance) => {
 
   return createDefaultPayload(instance);
 };
+
+// tmux-backed terminal payload: keeps the session alive across reloads/reconnects.
+// `\;` is an escaped semicolon -> several tmux commands in one argv.
+export const getTmuxPayload = (
+  instance: LxdInstance,
+  session: string,
+): TerminalConnectPayload => {
+  const base = getDefaultPayload(instance);
+  const tmux =
+    "exec tmux -u new-session -A -s " +
+    session +
+    " \\; set -g status off \\; set -g mouse on \\; set -g history-limit 50000";
+  const script =
+    "command -v tmux >/dev/null 2>&1 || { " +
+    "printf '\\033[33m[incus] 本机没有 tmux：会话将不会持久（关掉即失效）\\033[0m\\n'; exec sh -l; }; " +
+    tmux;
+  return {
+    ...base,
+    command: ["/bin/sh", "-lc", script],
+  };
+};

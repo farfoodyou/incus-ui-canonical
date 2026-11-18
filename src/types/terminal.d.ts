@@ -13,7 +13,7 @@ export interface LxdTerminal {
 }
 
 export interface TerminalConnectPayload {
-  command: string;
+  command: string | string[];
   environment: {
     key: string;
     value: string;
