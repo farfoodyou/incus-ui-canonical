@@ -13,6 +13,7 @@ interface Props {
 interface TerminalTab {
   id: string;
   session: string;
+  label?: string;
   /** "install" tabs run a fixed command (e.g. installing tmux) instead of tmux */
   kind?: "term" | "install";
 }
@@ -188,7 +189,7 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
             onClick={() => {
               setActive(t.id);
             }}
-            title={`${t.session}（点 × detach 保留会话，Shift+点 × 结束会话）`}
+            title={`${t.session} (click × to detach and keep the session, shift+× to kill it)`}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -203,7 +204,9 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
             }}
           >
             <span>
-              {t.kind === "install" ? "安装 tmux" : t.session.replace(/^incus-/, "#")}
+              {t.kind === "install"
+                ? "Install tmux"
+                : "#" + (tabs.filter((x) => x.kind !== "install").indexOf(t) + 1)}
             </span>
             <span
               role="button"
@@ -233,9 +236,9 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
                 fontSize: "12px",
                 color: "#c96",
               }}
-              title="没装 tmux：标签可以开，但刷新/断开后会话不会保留"
+              title="tmux is not installed: tabs work, but sessions are not kept after a reload"
             >
-              ⚠ 无 tmux（会话不持久）
+              ⚠ tmux not installed — sessions won't persist
             </span>
             <button
               type="button"
@@ -254,7 +257,7 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
                 font: "inherit",
               }}
             >
-              安装 tmux
+              Install tmux
             </button>
           </>
         )}
@@ -262,7 +265,7 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
           type="button"
           onClick={addTab}
           disabled={tabs.length >= MAX_TABS}
-          title="新建标签"
+          title="New tab"
           style={{
             padding: "4px 10px",
             borderRadius: "4px",
@@ -276,9 +279,9 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
         </button>
         <span
           style={{ marginLeft: "auto", opacity: 0.6, fontSize: "12px" }}
-          title="会话保存在 guest 的 tmux 里：刷新页面、断开重连都会接回同一个会话"
+          title="Sessions live in the guest's tmux server: reloads and reconnects attach back to the same session"
         >
-          tmux 会话 · 刷新可接回
+          tmux sessions · survives reload
         </span>
       </div>
 
