@@ -1,3 +1,5 @@
+**English** · [简体中文](README.zh-Hans.md) · [Français](README.fr.md)
+
 # Incus UI (fork)
 
 A browser frontend for [Incus](https://linuxcontainers.org/incus/). It enables easy and
