@@ -42,7 +42,6 @@ no rebuild of Incus is needed.
   reconnects. Tabs are remembered per instance; when tmux is missing the UI offers a
   one-click install tab and falls back to a plain shell.
 
-  ![multi-tab terminal](screenshots/multitab-terminal.png)
 
 - Prebuilt release: <https://github.com/farfoodyou/incus-ui-canonical/releases>
 - Upstream fix included: reading the `X-Incus-*` file metadata headers
@@ -76,7 +75,7 @@ Future plans and high-priority features and enhancements can be found in the [ro
 
 |  Instance terminal   | Graphic console      |
 |----------------------|----------------------|
-| ![instance-terminal](https://assets.ubuntu.com/v1/8b5c1144-instance-terminal.png) | ![instance-graphical-console](https://assets.ubuntu.com/v1/6c9f268f-instance-graphical-console.png) |
+| ![instance-terminal](screenshots/instance-terminal.png) | ![instance-graphical-console](https://assets.ubuntu.com/v1/6c9f268f-instance-graphical-console.png) |
 
 | Storage pools         | Storage volume       |
 |----------------------|----------------------|
