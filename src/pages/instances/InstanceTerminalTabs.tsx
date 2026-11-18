@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
 import { ROOT_PATH } from "util/rootPath";
+import { useTranslation } from "react-i18next";
 import InstanceTerminal from "./InstanceTerminal";
 
 interface Props {
@@ -94,6 +95,7 @@ const killSession = (name: string, project: string, session: string) => {
 };
 
 const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
+  const { t: tr } = useTranslation();
   const { name = "", project = "" } = useParams<{
     name: string;
     project: string;
@@ -189,7 +191,7 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
             onClick={() => {
               setActive(t.id);
             }}
-            title={`${t.session} (click × to detach and keep the session, shift+× to kill it)`}
+            title={tr("terminal.detachHint", { session: t.session })}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -205,7 +207,7 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
           >
             <span>
               {t.kind === "install"
-                ? "Install tmux"
+                ? tr("terminal.installTab")
                 : "#" + (tabs.filter((x) => x.kind !== "install").indexOf(t) + 1)}
             </span>
             <span
@@ -236,9 +238,9 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
                 fontSize: "12px",
                 color: "#c96",
               }}
-              title="tmux is not installed: tabs work, but sessions are not kept after a reload"
+              title={tr("terminal.noTmuxHint")}
             >
-              ⚠ tmux not installed — sessions won't persist
+              {tr("terminal.noTmuxBadge")}
             </span>
             <button
               type="button"
@@ -257,7 +259,7 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
                 font: "inherit",
               }}
             >
-              Install tmux
+              {tr("terminal.installTmux")}
             </button>
           </>
         )}
@@ -265,7 +267,7 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
           type="button"
           onClick={addTab}
           disabled={tabs.length >= MAX_TABS}
-          title="New tab"
+          title={tr("terminal.newTab")}
           style={{
             padding: "4px 10px",
             borderRadius: "4px",
@@ -279,9 +281,9 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
         </button>
         <span
           style={{ marginLeft: "auto", opacity: 0.6, fontSize: "12px" }}
-          title="Sessions live in the guest's tmux server: reloads and reconnects attach back to the same session"
+          title={tr("terminal.sessionsHint")}
         >
-          tmux sessions · survives reload
+          {tr("terminal.sessionsBadge")}
         </span>
       </div>
 

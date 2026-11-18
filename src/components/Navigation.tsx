@@ -9,6 +9,8 @@ import {
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "context/auth";
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "components/LanguageSelector";
 import classnames from "classnames";
 import Logo from "./Logo";
 import NavigationProjectSelector from "pages/projects/NavigationProjectSelector";
@@ -105,6 +107,7 @@ const Navigation: FC = () => {
   const onGenerate = location.pathname.includes("certificate-generate");
   const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
+  const { t } = useTranslation();
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const navigate = useNavigate();
   const isOidc = authMethod === AUTH_METHOD.OIDC;
@@ -304,27 +307,27 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={getOverviewUrl(projectName)}
-                          title={`Overview (${projectName})`}
+                          title={`${t("nav.overview")} (${projectName})`}
                           onClick={softToggleMenu}
                         >
                           <DsIcon
                             className="is-light p-side-navigation__icon"
                             icon="switcher-dashboard"
                           />{" "}
-                          Overview
+                          {t("nav.overview")}
                         </NavLink>
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
                           to={getInstancesUrl(projectName)}
-                          title={`Instances (${projectName})`}
+                          title={`${t("nav.instances")} (${projectName})`}
                           onClick={softToggleMenu}
                         >
                           <DsIcon
                             className="is-light p-side-navigation__icon"
                             icon="pods"
                           />{" "}
-                          Instances
+                          {t("nav.instances")}
                         </NavLink>
                       </SideNavigationItem>
 
@@ -339,7 +342,7 @@ const Navigation: FC = () => {
                             className="is-light p-side-navigation__icon"
                             icon="repository"
                           />{" "}
-                          Profiles
+                          {t("nav.profiles")}
                         </NavLink>
                       </SideNavigationItem>
 
@@ -352,7 +355,7 @@ const Navigation: FC = () => {
                           title={getNavTitle("networking")}
                           disabled={isAllProjects}
                           iconName="exposed"
-                          label="Networking"
+                          label={t("nav.networking")}
                           onOpen={() => {
                             toggleAccordionNav("networking");
                           }}
@@ -415,7 +418,7 @@ const Navigation: FC = () => {
                           title={getNavTitle("storage")}
                           disabled={isAllProjects}
                           iconName="storage-pool"
-                          label="Storage"
+                          label={t("nav.storage")}
                           onOpen={() => {
                             toggleAccordionNav("storage");
                           }}
@@ -490,7 +493,7 @@ const Navigation: FC = () => {
                           ]}
                           title={getNavTitle("image")}
                           iconName="image"
-                          label="Images"
+                          label={t("nav.images")}
                           onOpen={() => {
                             toggleAccordionNav("images");
                           }}
@@ -520,7 +523,7 @@ const Navigation: FC = () => {
                             className="is-light p-side-navigation__icon"
                             icon="switcher-environments"
                           />{" "}
-                          Configuration
+                          {t("nav.configuration")}
                         </NavLink>
                       </SideNavigationItem>
                       <SideNavigationItem>
@@ -534,7 +537,7 @@ const Navigation: FC = () => {
                             className="is-light p-side-navigation__icon"
                             icon="statistics"
                           />{" "}
-                          Usage
+                          {t("nav.usage")}
                         </NavLink>
                       </SideNavigationItem>
                     </>
@@ -558,7 +561,7 @@ const Navigation: FC = () => {
                           ]}
                           title={getNavTitle("clustering")}
                           iconName="cluster-host"
-                          label="Clustering"
+                          label={t("nav.clustering")}
                           onOpen={() => {
                             toggleAccordionNav("clustering");
                           }}
@@ -670,7 +673,7 @@ const Navigation: FC = () => {
                             baseUrls={[`${ROOT_PATH}/ui/permissions`]}
                             title={`Permissions`}
                             iconName="user"
-                            label="Permissions"
+                            label={t("nav.permissions")}
                             onOpen={() => {
                               toggleAccordionNav("permissions");
                             }}
@@ -718,16 +721,21 @@ const Navigation: FC = () => {
                         </SideNavigationItem>
                       )}
                       <SideNavigationItem>
+                        <div style={{ padding: "4px 12px 8px" }}>
+                          <LanguageSelector />
+                        </div>
+                      </SideNavigationItem>
+                      <SideNavigationItem>
                         <NavLink
                           to={`${ROOT_PATH}/ui/settings`}
-                          title="Settings"
+                          title={t("nav.settings")}
                           onClick={softToggleMenu}
                         >
                           <DsIcon
                             className="is-light p-side-navigation__icon"
                             icon="settings"
                           />{" "}
-                          Settings
+                          {t("nav.settings")}
                         </NavLink>
                       </SideNavigationItem>
                     </>
@@ -814,7 +822,7 @@ const Navigation: FC = () => {
                   <SideNavigationItem>
                     <DocLink
                       className="p-side-navigation__link"
-                      title="Documentation"
+                      title={t("nav.documentation")}
                       docPath="/"
                     >
                       <DsIcon
@@ -823,7 +831,7 @@ const Navigation: FC = () => {
                         })}
                         icon="book"
                       />
-                      Documentation
+                      {t("nav.documentation")}
                     </DocLink>
                   </SideNavigationItem>
                   <SideNavigationItem>
@@ -832,7 +840,7 @@ const Navigation: FC = () => {
                       href="https://discuss.linuxcontainers.org"
                       target="_blank"
                       rel="noopener noreferrer"
-                      title="Discussion"
+                      title={t("nav.discussion")}
                     >
                       <DsIcon
                         className={classnames("p-side-navigation__icon", {
@@ -840,7 +848,7 @@ const Navigation: FC = () => {
                         })}
                         icon="share"
                       />
-                      Discussion
+                      {t("nav.discussion")}
                     </a>
                   </SideNavigationItem>
                   <SideNavigationItem>
@@ -857,7 +865,7 @@ const Navigation: FC = () => {
                         })}
                         icon="bug"
                       />
-                      Report a bug
+                      {t("nav.reportBug")}
                     </a>
                   </SideNavigationItem>
                   {isOidc && (

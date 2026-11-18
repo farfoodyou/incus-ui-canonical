@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "overview": "Overview",
+    "instances": "Instances",
+    "profiles": "Profiles",
+    "networking": "Networking",
+    "storage": "Storage",
+    "images": "Images",
+    "configuration": "Configuration",
+    "usage": "Usage",
+    "clustering": "Clustering",
+    "operations": "Operations",
+    "warnings": "Warnings",
+    "settings": "Settings",
+    "documentation": "Documentation",
+    "discussion": "Discussion",
+    "reportBug": "Report a bug",
+    "permissions": "Permissions"
+  },
+  "terminal": {
+    "newTab": "New tab",
+    "detachHint": "{{session}} (click × to detach and keep the session, shift+× to kill it)",
+    "noTmuxBadge": "⚠ tmux not installed — sessions won't persist",
+    "noTmuxHint": "tmux is not installed: tabs work, but sessions are not kept after a reload",
+    "installTmux": "Install tmux",
+    "installTab": "Install tmux",
+    "sessionsHint": "Sessions live in the guest's tmux server: reloads and reconnects attach back to the same session",
+    "sessionsBadge": "tmux sessions · survives reload"
+  },
+  "language": {
+    "label": "Language"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "overview": "概览",
+    "instances": "实例",
+    "profiles": "配置档案",
+    "networking": "网络",
+    "storage": "存储",
+    "images": "镜像",
+    "configuration": "配置",
+    "usage": "资源使用",
+    "clustering": "集群",
+    "operations": "操作",
+    "warnings": "警告",
+    "settings": "设置",
+    "documentation": "文档",
+    "discussion": "讨论",
+    "reportBug": "报告问题",
+    "permissions": "权限"
+  },
+  "terminal": {
+    "newTab": "新建标签",
+    "detachHint": "{{session}}（点 × 断开并保留会话，Shift+× 结束会话）",
+    "noTmuxBadge": "⚠ 未安装 tmux — 会话不会保留",
+    "noTmuxHint": "未安装 tmux：标签可用，但刷新后会话不会保留",
+    "installTmux": "安装 tmux",
+    "installTab": "安装 tmux",
+    "sessionsHint": "会话保存在 guest 的 tmux 中：刷新或重连都会接回同一会话",
+    "sessionsBadge": "tmux 会话 · 刷新可接回"
+  },
+  "language": {
+    "label": "语言"
+  }
+}

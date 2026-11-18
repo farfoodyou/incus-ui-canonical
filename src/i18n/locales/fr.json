@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "overview": "Vue d'ensemble",
+    "instances": "Instances",
+    "profiles": "Profils",
+    "networking": "Réseau",
+    "storage": "Stockage",
+    "images": "Images",
+    "configuration": "Configuration",
+    "usage": "Utilisation",
+    "clustering": "Cluster",
+    "operations": "Opérations",
+    "warnings": "Avertissements",
+    "settings": "Paramètres",
+    "documentation": "Documentation",
+    "discussion": "Discussion",
+    "reportBug": "Signaler un bug",
+    "permissions": "Autorisations"
+  },
+  "terminal": {
+    "newTab": "Nouvel onglet",
+    "detachHint": "{{session}} (clic sur × pour détacher et garder la session, maj+× pour la terminer)",
+    "noTmuxBadge": "⚠ tmux n'est pas installé — les sessions ne seront pas conservées",
+    "noTmuxHint": "tmux n'est pas installé : les onglets fonctionnent, mais les sessions sont perdues au rechargement",
+    "installTmux": "Installer tmux",
+    "installTab": "Installer tmux",
+    "sessionsHint": "Les sessions vivent dans tmux côté invité : un rechargement ou une reconnexion rattache la même session",
+    "sessionsBadge": "sessions tmux · survivent au rechargement"
+  },
+  "language": {
+    "label": "Langue"
+  }
+}
