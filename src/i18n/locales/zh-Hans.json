@@ -1,4 +1,8 @@
 {
+  "_meta": {
+    "label": "简体中文",
+    "dir": "ltr"
+  },
   "nav": {
     "overview": "概览",
     "instances": "实例",

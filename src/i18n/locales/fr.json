@@ -1,4 +1,8 @@
 {
+  "_meta": {
+    "label": "Français",
+    "dir": "ltr"
+  },
   "nav": {
     "overview": "Vue d'ensemble",
     "instances": "Instances",

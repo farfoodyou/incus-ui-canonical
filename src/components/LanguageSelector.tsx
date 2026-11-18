@@ -30,7 +30,7 @@ const LanguageSelector: FC<Props> = ({ className }) => {
         fontSize: "13px",
       }}
     >
-      {LANGUAGES.map((l: { code: string; label: string }) => (
+      {LANGUAGES.map((l) => (
         <option key={l.code} value={l.code} style={{ color: "#111" }}>
           {l.label}
         </option>

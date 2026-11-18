@@ -47,7 +47,20 @@ no rebuild of Incus is needed.
 - Upstream fix included: reading the `X-Incus-*` file metadata headers
   ([upstream PR #266](https://github.com/zabbly/incus-ui-canonical/pull/266)).
 
-Multi-tab work is kept in this fork only; it is not proposed upstream.
+- **Translations (i18n)** — the UI is translatable via i18next; English, 简体中文 and
+  Français ship in `src/i18n/locales/`, with a language switcher in the sidebar. Locales are
+  discovered from the directory, so **adding a language is a single file**:
+
+  ```jsonc
+  // src/i18n/locales/de.json
+  { "_meta": { "label": "Deutsch", "dir": "ltr" }, "nav": { "instances": "Instanzen", ... } }
+  ```
+
+  Missing keys fall back to English, `_meta.dir: "rtl"` switches `<html dir>` for RTL
+  languages, and `zh-CN`/`fr-CA` style browser locales are matched to the best available
+  catalog.
+
+Multi-tab and i18n work is kept in this fork only; it is not proposed upstream.
 
 # Contributing
 

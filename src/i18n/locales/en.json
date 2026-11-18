@@ -1,4 +1,8 @@
 {
+  "_meta": {
+    "label": "English",
+    "dir": "ltr"
+  },
   "nav": {
     "overview": "Overview",
     "instances": "Instances",

@@ -1,31 +1,70 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import en from "./locales/en.json";
-import fr from "./locales/fr.json";
-import zhHans from "./locales/zh-Hans.json";
 
-export const LANGUAGES = [
-  { code: "en", label: "English" },
-  { code: "zh-Hans", label: "简体中文" },
-  { code: "fr", label: "Français" },
-] as const;
+/**
+ * Locales are discovered from src/i18n/locales/*.json, so adding a language is a matter
+ * of dropping one file in — no code change needed. Each file carries a `_meta` block:
+ *
+ *   { "_meta": { "label": "简体中文", "dir": "ltr" }, "nav": { ... } }
+ *
+ * `label` is what the language switcher shows, `dir` (optional) is applied to <html>.
+ */
+interface LocaleMeta {
+  label?: string;
+  dir?: "ltr" | "rtl";
+}
 
-export type LanguageCode = (typeof LANGUAGES)[number]["code"];
+type LocaleFile = LocaleMeta & { _meta?: LocaleMeta } & Record<string, unknown>;
+
+const modules = import.meta.glob("./locales/*.json", { eager: true }) as Record<
+  string,
+  { default: LocaleFile }
+>;
+
+export interface Language {
+  code: string;
+  label: string;
+  dir: "ltr" | "rtl";
+}
+
+const resources: Record<string, { translation: Record<string, unknown> }> = {};
+const languages: Language[] = [];
+
+for (const [path, mod] of Object.entries(modules)) {
+  const code = path.replace("./locales/", "").replace(/\.json$/, "");
+  const data = mod.default ?? {};
+  const meta = data._meta ?? {};
+  const { _meta, ...translation } = data as Record<string, unknown>;
+  resources[code] = { translation: translation as Record<string, unknown> };
+  languages.push({ code, label: meta.label ?? code, dir: meta.dir ?? "ltr" });
+}
+
+// English first (it is the source/fallback language), then alphabetical by label.
+languages.sort((a, b) => {
+  if (a.code === "en") return -1;
+  if (b.code === "b") return 1;
+  return a.label.localeCompare(b.label);
+});
+
+export const LANGUAGES: Language[] = languages;
+export const FALLBACK_LANGUAGE = "en";
 
 const STORAGE_KEY = "incus-ui-language";
 
-const normalise = (raw?: string | null): LanguageCode => {
+const normalise = (raw?: string | null): string => {
   if (!raw) {
-    return "en";
+    return FALLBACK_LANGUAGE;
   }
-  const lower = raw.toLowerCase();
-  if (lower.startsWith("zh")) {
-    return "zh-Hans";
+  const wanted = raw.toLowerCase().replace("_", "-");
+  const exact = LANGUAGES.find((l) => l.code.toLowerCase() === wanted);
+  if (exact) {
+    return exact.code;
   }
-  if (lower.startsWith("fr")) {
-    return "fr";
-  }
-  return "en";
+  // "zh-CN" -> "zh-Hans", "fr-CA" -> "fr", "en-GB" -> "en"
+  const sameLanguage = LANGUAGES.find(
+    (l) => l.code.toLowerCase().split("-")[0] === wanted.split("-")[0],
+  );
+  return sameLanguage?.code ?? FALLBACK_LANGUAGE;
 };
 
 const initialLanguage = normalise(
@@ -33,25 +72,28 @@ const initialLanguage = normalise(
 );
 
 void i18n.use(initReactI18next).init({
-  resources: {
-    en: { translation: en },
-    "zh-Hans": { translation: zhHans },
-    fr: { translation: fr },
-  },
+  resources,
   lng: initialLanguage,
-  fallbackLng: "en",
+  fallbackLng: FALLBACK_LANGUAGE,
+  supportedLngs: LANGUAGES.map((l) => l.code),
   interpolation: { escapeValue: false },
 });
 
-document.documentElement.lang = initialLanguage;
+const applyDocumentLanguage = (code: string) => {
+  const language = LANGUAGES.find((l) => l.code === code);
+  document.documentElement.lang = code;
+  document.documentElement.dir = language?.dir ?? "ltr";
+};
+
+applyDocumentLanguage(initialLanguage);
 
 export const setLanguage = (code: string) => {
   const next = normalise(code);
   localStorage.setItem(STORAGE_KEY, next);
-  document.documentElement.lang = next;
+  applyDocumentLanguage(next);
   return i18n.changeLanguage(next);
 };
 
-export const currentLanguage = (): LanguageCode => normalise(i18n.language);
+export const currentLanguage = (): string => normalise(i18n.language);
 
 export default i18n;
