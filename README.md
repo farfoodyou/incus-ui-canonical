@@ -75,7 +75,7 @@ Future plans and high-priority features and enhancements can be found in the [ro
 
 |  Instance terminal   | Graphic console      |
 |----------------------|----------------------|
-| ![instance-terminal](screenshots/instance-terminal.png) | ![instance-graphical-console](https://assets.ubuntu.com/v1/6c9f268f-instance-graphical-console.png) |
+| ![instance-terminal](screenshots/instance-terminal-1280x720.png) | ![instance-graphical-console](https://assets.ubuntu.com/v1/6c9f268f-instance-graphical-console.png) |
 
 | Storage pools         | Storage volume       |
 |----------------------|----------------------|
