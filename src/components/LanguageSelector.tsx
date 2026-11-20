@@ -4,9 +4,11 @@ import { LANGUAGES, currentLanguage, setLanguage } from "i18n";
 
 interface Props {
   className?: string;
+  /** inline, small variant for low-key placements */
+  compact?: boolean;
 }
 
-const LanguageSelector: FC<Props> = ({ className }) => {
+const LanguageSelector: FC<Props> = ({ className, compact = false }) => {
   const { t } = useTranslation();
   return (
     <select
@@ -20,15 +22,27 @@ const LanguageSelector: FC<Props> = ({ className }) => {
           window.location.reload();
         });
       }}
-      style={{
-        width: "100%",
-        padding: "4px 6px",
-        background: "transparent",
-        color: "inherit",
-        border: "1px solid rgba(255,255,255,0.3)",
-        borderRadius: "3px",
-        fontSize: "13px",
-      }}
+      style={
+        compact
+          ? {
+              width: "auto",
+              padding: "2px 4px",
+              background: "transparent",
+              color: "inherit",
+              border: "1px solid #ccc",
+              borderRadius: "3px",
+              fontSize: "13px",
+            }
+          : {
+              width: "100%",
+              padding: "4px 6px",
+              background: "transparent",
+              color: "inherit",
+              border: "1px solid rgba(255,255,255,0.3)",
+              borderRadius: "3px",
+              fontSize: "13px",
+            }
+      }
     >
       {LANGUAGES.map((l) => (
         <option key={l.code} value={l.code} style={{ color: "#111" }}>

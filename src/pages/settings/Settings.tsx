@@ -201,17 +201,6 @@ const Settings: FC = () => {
       >
         <NotificationRow />
         <Row>
-          <div className="p-card u-no-margin--bottom" style={{ marginBottom: "1rem" }}>
-            <div className="p-card__content">
-              <h2 className="p-heading--5">{t("settings.language")}</h2>
-              <p className="p-form-help-text">{t("settings.languageHint")}</p>
-              <div style={{ maxWidth: "320px" }}>
-                <LanguageSelector />
-              </div>
-            </div>
-          </div>
-        </Row>
-        <Row>
           {!canEditServerConfiguration() && (
             <Notification
               severity="caution"
@@ -235,6 +224,22 @@ const Settings: FC = () => {
               />
             </ScrollableTable>
           )}
+        </Row>
+        <Row>
+          <div
+            className="u-text--muted"
+            title={t("settings.languageHint")}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              marginTop: "0.5rem",
+              fontSize: "0.875rem",
+            }}
+          >
+            <span>{t("settings.language")}:</span>
+            <LanguageSelector compact />
+          </div>
         </Row>
       </CustomLayout>
     </>
