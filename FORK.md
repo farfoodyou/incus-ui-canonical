@@ -119,6 +119,18 @@ runs the synced `src/` tree.)
 - No "big bang" fork of whole page trees; copy only the component you must change.
 - No divergence in `package.json` beyond added dependencies (keeps lockfile conflicts trivial).
 
+## Translation drift
+
+`yarn i18n:check` (also run by `.github/workflows/i18n-sync.yaml` on every push/PR) compares
+
+- every `src/i18n/locales/*.json` against `en.json` — missing and obsolete keys;
+- `README.md` / `README.zh-Hans.md` / `README.fr.md` — same number of headings, code blocks,
+  images and links (the newest file by mtime is used as the reference and named in the output).
+
+`yarn i18n:fix` fills missing locale keys with the English text and drops keys that no longer
+exist upstream. Prose in the translated READMEs still has to be written by hand; the checker
+tells you which structural part drifted and which file is the freshest.
+
 ## Commit messages
 
 All commit messages are in English; `git config core.hooksPath .githooks` (done by
