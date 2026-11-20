@@ -64,6 +64,8 @@ suffit, aucune recompilation d'Incus n'est nécessaire.
   ([PR amont #266](https://github.com/zabbly/incus-ui-canonical/pull/266)).
 
 Le multi-onglets et l'i18n restent propres à ce fork et ne sont pas proposés en amont.
+Les conventions de développement (surface de hooks, synchronisation amont par merge) sont
+décrites dans [FORK.md](FORK.md).
 
 # Contribuer
 
@@ -73,8 +75,9 @@ Le multi-onglets et l'i18n restent propres à ce fork et ne sont pas proposés e
 
 # Architecture
 
-Application monopage écrite en TypeScript et React. Les détails de construction et
-d'environnement de développement sont dans [Architecture](ARCHITECTURE.MD).
+Application monopage écrite en TypeScript et React. Les détails de construction avec
+[LXD](https://github.com/canonical/lxd) et d'environnement de développement sont dans
+[Architecture](ARCHITECTURE.MD).
 
 # Journal des modifications
 

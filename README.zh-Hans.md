@@ -57,6 +57,7 @@ UI 就是一组静态文件（`index.html` + `assets/`），由 incusd 托管。
   （[上游 PR #266](https://github.com/zabbly/incus-ui-canonical/pull/266)）。
 
 多标签与 i18n 只保留在本 fork，不向上游提 PR。
+开发约定（挂载点清单、基于 merge 的上游同步）见 [FORK.md](FORK.md)。
 
 # 参与贡献
 
@@ -65,7 +66,7 @@ UI 就是一组静态文件（`index.html` + `assets/`），由 incusd 托管。
 
 # 架构
 
-本项目是用 TypeScript 与 React 编写的单页应用，构建与开发环境的细节见 [Architecture](ARCHITECTURE.MD)。
+本项目是用 TypeScript 与 React 编写的单页应用，关于与 [LXD](https://github.com/canonical/lxd) 一起打包以及开发环境，详见 [Architecture](ARCHITECTURE.MD)。
 
 # 变更记录
 
