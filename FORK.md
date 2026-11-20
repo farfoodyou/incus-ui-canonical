@@ -118,3 +118,9 @@ runs the synced `src/` tree.)
 - No rename/refactor sweeps of upstream code (rebase cost, and upstream rejects it by design).
 - No "big bang" fork of whole page trees; copy only the component you must change.
 - No divergence in `package.json` beyond added dependencies (keeps lockfile conflicts trivial).
+
+## Commit messages
+
+All commit messages are in English; `git config core.hooksPath .githooks` (done by
+default in this clone) enables `.githooks/commit-msg`, which rejects CJK characters in
+commit metadata. Translations belong in `src/i18n/locales/*.json`.

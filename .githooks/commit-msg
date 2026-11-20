@@ -1,0 +1,15 @@
+#!/bin/sh
+# Reject commit messages that contain CJK characters.
+# Rationale: this repository is published in English; commit history must stay
+# greppable and reviewable for everyone. Chinese/French belongs in the i18n locale
+# files, not in commit metadata.
+msg_file="$1"
+if grep -qP '[\x{4e00}-\x{9fff}]' "$msg_file"; then
+    cat >&2 <<'EOF'
+error: commit message contains CJK characters.
+
+Commit messages must be written in English (see FORK.md). Keep translations in
+src/i18n/locales/*.json instead.
+EOF
+    exit 1
+fi

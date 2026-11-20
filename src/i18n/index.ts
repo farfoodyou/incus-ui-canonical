@@ -5,7 +5,7 @@ import { initReactI18next } from "react-i18next";
  * Locales are discovered from src/i18n/locales/*.json, so adding a language is a matter
  * of dropping one file in — no code change needed. Each file carries a `_meta` block:
  *
- *   { "_meta": { "label": "简体中文", "dir": "ltr" }, "nav": { ... } }
+ *   { "_meta": { "label": "Deutsch", "dir": "ltr" }, "nav": { ... } }
  *
  * `label` is what the language switcher shows, `dir` (optional) is applied to <html>.
  */
