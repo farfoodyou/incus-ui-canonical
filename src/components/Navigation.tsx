@@ -10,7 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "context/auth";
 import { useTranslation } from "react-i18next";
-import LanguageSelector from "components/LanguageSelector";
+import { documentationAvailable } from "util/docs";
 import classnames from "classnames";
 import Logo from "./Logo";
 import NavigationProjectSelector from "pages/projects/NavigationProjectSelector";
@@ -108,6 +108,11 @@ const Navigation: FC = () => {
   const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
   const { t } = useTranslation();
+  const [docsAvailable, setDocsAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    void documentationAvailable().then(setDocsAvailable);
+  }, []);
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const navigate = useNavigate();
   const isOidc = authMethod === AUTH_METHOD.OIDC;
@@ -721,11 +726,6 @@ const Navigation: FC = () => {
                         </SideNavigationItem>
                       )}
                       <SideNavigationItem>
-                        <div style={{ padding: "4px 12px 8px" }}>
-                          <LanguageSelector />
-                        </div>
-                      </SideNavigationItem>
-                      <SideNavigationItem>
                         <NavLink
                           to={`${ROOT_PATH}/ui/settings`}
                           title={t("nav.settings")}
@@ -819,6 +819,7 @@ const Navigation: FC = () => {
                       </NavLink>
                     </SideNavigationItem>
                   )}
+                  {docsAvailable !== false && (
                   <SideNavigationItem>
                     <DocLink
                       className="p-side-navigation__link"
@@ -834,6 +835,7 @@ const Navigation: FC = () => {
                       {t("nav.documentation")}
                     </DocLink>
                   </SideNavigationItem>
+                  )}
                   <SideNavigationItem>
                     <a
                       className="p-side-navigation__link"

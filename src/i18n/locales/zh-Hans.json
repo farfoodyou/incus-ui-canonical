@@ -35,5 +35,12 @@
   },
   "language": {
     "label": "语言"
+  },
+  "settings": {
+    "language": "界面语言",
+    "languageHint": "仅对当前浏览器生效，选择保存在本地，切换后页面会刷新一次。"
+  },
+  "docs": {
+    "unavailable": "此服务器未安装文档"
   }
 }

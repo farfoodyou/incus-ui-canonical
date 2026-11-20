@@ -35,5 +35,12 @@
   },
   "language": {
     "label": "Langue"
+  },
+  "settings": {
+    "language": "Langue",
+    "languageHint": "S'applique à ce navigateur uniquement ; le choix est stocké localement et la page se recharge une fois."
+  },
+  "docs": {
+    "unavailable": "La documentation n'est pas installée sur ce serveur"
   }
 }

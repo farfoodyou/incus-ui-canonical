@@ -35,5 +35,12 @@
   },
   "language": {
     "label": "Language"
+  },
+  "settings": {
+    "language": "Language",
+    "languageHint": "Applies to this browser only; the choice is stored locally and the page reloads once."
+  },
+  "docs": {
+    "unavailable": "Documentation is not installed on this server"
   }
 }

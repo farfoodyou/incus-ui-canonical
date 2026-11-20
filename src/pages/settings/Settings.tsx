@@ -34,8 +34,11 @@ import ResourceLabel from "components/ResourceLabel";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import type { ConfigField } from "types/config";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "components/LanguageSelector";
 
 const Settings: FC = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("query") ?? "");
 
@@ -197,6 +200,17 @@ const Settings: FC = () => {
         contentClassName="settings"
       >
         <NotificationRow />
+        <Row>
+          <div className="p-card u-no-margin--bottom" style={{ marginBottom: "1rem" }}>
+            <div className="p-card__content">
+              <h2 className="p-heading--5">{t("settings.language")}</h2>
+              <p className="p-form-help-text">{t("settings.languageHint")}</p>
+              <div style={{ maxWidth: "320px" }}>
+                <LanguageSelector />
+              </div>
+            </div>
+          </div>
+        </Row>
         <Row>
           {!canEditServerConfiguration() && (
             <Notification
