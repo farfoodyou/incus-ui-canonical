@@ -63,6 +63,8 @@ no rebuild of Incus is needed.
   catalog.
 
 Multi-tab and i18n work is kept in this fork only; it is not proposed upstream.
+Development conventions (hook surface, merge-based upstream sync) are documented in
+[FORK.md](FORK.md).
 
 # Contributing
 
