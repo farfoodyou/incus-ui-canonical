@@ -29,7 +29,9 @@
     "installTmux": "Installer tmux",
     "installTab": "Installer tmux",
     "sessionsHint": "Les sessions vivent dans tmux côté invité : un rechargement ou une reconnexion rattache la même session",
-    "sessionsBadge": "sessions tmux · survivent au rechargement"
+    "sessionsBadge": "sessions tmux · survivent au rechargement",
+    "share": "Partager",
+    "shareHint": "Partager cette session tmux avec d'autres navigateurs (attach multi-clients)"
   },
   "language": {
     "label": "Langue"

@@ -29,7 +29,9 @@
     "installTmux": "Install tmux",
     "installTab": "Install tmux",
     "sessionsHint": "Sessions live in the guest's tmux server: reloads and reconnects attach back to the same session",
-    "sessionsBadge": "tmux sessions · survives reload"
+    "sessionsBadge": "tmux sessions · survives reload",
+    "share": "Share",
+    "shareHint": "Share this tmux session with other browsers (multi-client attach)"
   },
   "language": {
     "label": "Language"

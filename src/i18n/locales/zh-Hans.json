@@ -29,7 +29,9 @@
     "installTmux": "安装 tmux",
     "installTab": "安装 tmux",
     "sessionsHint": "会话保存在 guest 的 tmux 中：刷新或重连都会接回同一会话",
-    "sessionsBadge": "tmux 会话 · 刷新可接回"
+    "sessionsBadge": "tmux 会话 · 刷新可接回",
+    "share": "共享",
+    "shareHint": "把这个 tmux 会话共享给其他浏览器（多端 attach）"
   },
   "language": {
     "label": "语言"

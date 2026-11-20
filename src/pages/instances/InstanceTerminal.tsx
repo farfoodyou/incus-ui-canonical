@@ -55,6 +55,8 @@ interface Props {
   refreshInstance: () => Promise<unknown>;
   /** tmux session name; when set the terminal attaches to a persistent tmux session */
   session?: string;
+  /** attach to an existing session instead of creating it (multi-client sharing) */
+  shared?: boolean;
   /** explicit exec command (used by the "install tmux" helper tab) */
   command?: string[];
 }
@@ -63,6 +65,7 @@ const InstanceTerminal: FC<Props> = ({
   instance,
   refreshInstance,
   session,
+  shared,
   command,
 }) => {
   const notify = useNotify();
@@ -81,7 +84,7 @@ const InstanceTerminal: FC<Props> = ({
       return { ...getDefaultPayload(instance), command };
     }
     return session
-      ? getTmuxPayload(instance, session)
+      ? getTmuxPayload(instance, session, shared)
       : getDefaultPayload(instance);
   });
   const [fitAddon] = useState<FitAddon>(new FitAddon());

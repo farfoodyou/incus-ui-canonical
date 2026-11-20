@@ -117,15 +117,17 @@ export const getDefaultPayload = (instance: LxdInstance) => {
 export const getTmuxPayload = (
   instance: LxdInstance,
   session: string,
+  shared = false,
 ): TerminalConnectPayload => {
   const base = getDefaultPayload(instance);
-  const tmux =
-    "exec tmux -u new-session -A -s " +
-    session +
-    " \\; set -g status off \\; set -g mouse on \\; set -g history-limit 50000";
+  const opts = " \\; set -g status off \\; set -g mouse on \\; set -g history-limit 50000";
+  const tmux = shared
+    ? // join the existing session (several browsers can share it), create if it is gone
+      "exec tmux -u attach -t " + session + opts + " || exec tmux -u new-session -s " + session + opts
+    : "exec tmux -u new-session -A -s " + session + opts;
   const script =
     "command -v tmux >/dev/null 2>&1 || { " +
-    "printf '\\033[33m[incus] 本机没有 tmux：会话将不会持久（关掉即失效）\\033[0m\\n'; exec sh -l; }; " +
+    "printf '\\033[33m[incus] tmux is not installed: this session will not survive a reload\\033[0m\\n'; exec sh -l; }; " +
     tmux;
   return {
     ...base,

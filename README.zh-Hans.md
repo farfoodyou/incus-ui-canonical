@@ -38,6 +38,8 @@ UI 就是一组静态文件（`index.html` + `assets/`），由 incusd 托管。
 - **多标签终端** —— 每个标签在 guest 内 attach 一个 tmux 会话
   （`tmux new-session -A -s <sess>`），所以刷新页面、关闭标签、断线重连后会话都还在。
   标签按实例记忆；没有 tmux 时 UI 会提供一个一键安装标签，并降级为普通 shell。
+  `Alt+T` 新建标签，`Alt+W` detach 当前标签，`Alt+1..9` 切换，**共享（Share）** 可让多个浏览器
+  同时 attach 同一个会话。
 
 - **多语言（i18n）** —— 基于 i18next，内置 English、简体中文、Français，
   侧边栏有语言切换器。语言由 `src/i18n/locales/` 目录自动发现，**新增语言只需加一个文件**：

@@ -42,7 +42,9 @@ no rebuild of Incus is needed.
 - **Multi-tab terminal** — every tab attaches to a tmux session in the guest
   (`tmux new-session -A -s <sess>`), so sessions survive page reloads, closed tabs and
   reconnects. Tabs are remembered per instance; when tmux is missing the UI offers a
-  one-click install tab and falls back to a plain shell.
+  one-click install tab and falls back to a plain shell. `Alt+T` opens a tab, `Alt+W`
+  detaches the active one, `Alt+1..9` switches, and **Share** lets several browsers attach to
+  the same session.
 
 
 - Prebuilt release: <https://github.com/farfoodyou/incus-ui-canonical/releases>

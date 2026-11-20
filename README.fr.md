@@ -42,7 +42,9 @@ suffit, aucune recompilation d'Incus n'est nécessaire.
   (`tmux new-session -A -s <sess>`) : les sessions survivent au rechargement de la page, à la
   fermeture d'un onglet et aux reconnexions. Les onglets sont mémorisés par instance ; si
   tmux est absent, l'interface propose un onglet d'installation en un clic et retombe sur un
-  shell simple.
+  shell simple. `Alt+T` ouvre un onglet, `Alt+W` détache l'onglet actif, `Alt+1..9`
+  changent d'onglet, et **Partager** permet à plusieurs navigateurs de s'attacher à la même
+  session.
 
 - **Traductions (i18n)** — basé sur i18next ; English, 简体中文 et Français sont fournis, avec
   un sélecteur de langue dans la barre latérale. Les langues sont découvertes dans

@@ -17,6 +17,8 @@ interface TerminalTab {
   label?: string;
   /** "install" tabs run a fixed command (e.g. installing tmux) instead of tmux */
   kind?: "term" | "install";
+  /** attach to the existing tmux session so several clients can share it */
+  shared?: boolean;
 }
 
 const TMUX_PATHS = ["/usr/local/bin/tmux", "/usr/bin/tmux", "/bin/tmux"];
@@ -30,7 +32,7 @@ const INSTALL_TMUX_CMD = [
     "elif command -v apt-get >/dev/null 2>&1; then apt-get update && apt-get install -y tmux; " +
     "elif command -v dnf >/dev/null 2>&1; then dnf install -y tmux; " +
     "elif command -v yum >/dev/null 2>&1; then yum install -y tmux; " +
-    "else echo '找不到包管理器，请手动安装 tmux'; fi; " +
+    "else echo 'No supported package manager found, please install tmux manually'; fi; " +
     "command -v tmux && echo TMUX_INSTALLED_OK",
 ];
 
@@ -172,6 +174,52 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
 
   const activeTab = tabs.find((t) => t.id === active) ?? tabs[0];
 
+  const toggleShared = (tab: TerminalTab) => {
+    setTabs(tabs.map((t) => (t.id === tab.id ? { ...t, shared: !t.shared } : t)));
+  };
+
+  // keyboard shortcuts: alt+t new tab, alt+w detach the active one, alt+1..9 switch.
+  // e.code is used instead of e.key so it works with any keyboard layout.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!e.altKey || e.ctrlKey || e.metaKey) {
+        return;
+      }
+
+      // ignore real form fields, but not xterm's hidden textarea (that is where the
+      // keystrokes land while the terminal has focus)
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) &&
+        !target.classList.contains("xterm-helper-textarea")
+      ) {
+        return;
+      }
+
+      if (e.code === "KeyT") {
+        e.preventDefault();
+        addTab();
+      } else if (e.code === "KeyW") {
+        e.preventDefault();
+        if (activeTab) {
+          closeTab(activeTab, false);
+        }
+      } else if (/^Digit[1-9]$/.test(e.code)) {
+        const wanted = tabs[Number(e.code.replace("Digit", "")) - 1];
+        if (wanted) {
+          e.preventDefault();
+          setActive(wanted.id);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKey, true);
+    return () => {
+      window.removeEventListener("keydown", onKey, true);
+    };
+  }, [tabs, activeTab]);
+
   return (
     <div className="instance-terminal-tabs">
       <div
@@ -279,6 +327,26 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
         >
           +
         </button>
+        {activeTab && activeTab.kind !== "install" && (
+          <button
+            type="button"
+            onClick={() => {
+              toggleShared(activeTab);
+            }}
+            title={tr("terminal.shareHint")}
+            style={{
+              padding: "4px 10px",
+              borderRadius: "4px",
+              border: "1px solid " + (activeTab.shared ? "#06c" : "#ccc"),
+              background: activeTab.shared ? "#06c" : "transparent",
+              color: activeTab.shared ? "#fff" : "inherit",
+              cursor: "pointer",
+              font: "inherit",
+            }}
+          >
+            {tr("terminal.share")} {activeTab.shared ? "on" : "off"}
+          </button>
+        )}
         <span
           style={{ marginLeft: "auto", opacity: 0.6, fontSize: "12px" }}
           title={tr("terminal.sessionsHint")}
@@ -289,10 +357,11 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
 
       {activeTab && (
         <InstanceTerminal
-          key={activeTab.id}
+          key={activeTab.id + (activeTab.shared ? ":shared" : "")}
           instance={instance}
           refreshInstance={refreshInstance}
           session={activeTab.kind === "install" ? undefined : activeTab.session}
+          shared={activeTab.shared}
           command={activeTab.kind === "install" ? INSTALL_TMUX_CMD : undefined}
         />
       )}
