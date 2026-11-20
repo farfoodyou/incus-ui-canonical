@@ -33,7 +33,8 @@ const INSTALL_TMUX_CMD = [
     "elif command -v dnf >/dev/null 2>&1; then dnf install -y tmux; " +
     "elif command -v yum >/dev/null 2>&1; then yum install -y tmux; " +
     "else echo 'No supported package manager found, please install tmux manually'; fi; " +
-    "command -v tmux && echo TMUX_INSTALLED_OK",
+    "command -v tmux && echo TMUX_INSTALLED_OK; " +
+    "echo; echo 'Done. Close this tab and open a new terminal tab.'; exec sh -l",
 ];
 
 const probeTmux = async (name: string, project: string): Promise<boolean> => {
@@ -142,9 +143,10 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
     probeTmux(name, project).then(setHasTmux).catch(() => setHasTmux(null));
   };
 
+  // re-probe when the tab set changes: after an "install tmux" tab the badge must disappear
   useEffect(() => {
     refreshTmuxProbe();
-  }, [name, project]);
+  }, [name, project, tabs.length]);
 
   const addTab = () => {
     if (tabs.length >= MAX_TABS) {
@@ -156,8 +158,12 @@ const InstanceTerminalTabs: FC<Props> = ({ instance, refreshInstance }) => {
   };
 
   const closeTab = (tab: TerminalTab, kill: boolean) => {
+    const wasInstall = tab.kind === "install";
     if (kill) {
       killSession(name, project, tab.session);
+    }
+    if (wasInstall) {
+      refreshTmuxProbe();
     }
     const remaining = tabs.filter((t) => t.id !== tab.id);
     if (!remaining.length) {
